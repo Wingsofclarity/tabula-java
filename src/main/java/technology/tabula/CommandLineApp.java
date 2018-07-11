@@ -24,6 +24,7 @@ import technology.tabula.detectors.DetectionAlgorithm;
 import technology.tabula.detectors.NurminenDetectionAlgorithm;
 import technology.tabula.extractors.BasicExtractionAlgorithm;
 import technology.tabula.extractors.SpreadsheetExtractionAlgorithm;
+import technology.tabula.extractors.NtpExtractionAlgorithm;
 import technology.tabula.writers.CSVWriter;
 import technology.tabula.writers.JSONWriter;
 import technology.tabula.writers.TSVWriter;
@@ -255,6 +256,11 @@ public class CommandLineApp {
         if (line.hasOption('n') || line.hasOption('c') || line.hasOption('g') || line.hasOption('t')) {
             return ExtractionMethod.BASIC;
         }
+
+
+        if (line.hasOption('j')) {
+            return ExtractionMethod.NTP;
+        }
         return ExtractionMethod.DECIDE;
     }
 
@@ -299,6 +305,7 @@ public class CommandLineApp {
         o.addOption("r", "spreadsheet", false, "[Deprecated in favor of -l/--lattice] Force PDF to be extracted using spreadsheet-style extraction (if there are ruling lines separating each cell, as in a PDF of an Excel spreadsheet)");
         o.addOption("n", "no-spreadsheet", false, "[Deprecated in favor of -t/--stream] Force PDF not to be extracted using spreadsheet-style extraction (if there are no ruling lines separating each cell)");
         o.addOption("l", "lattice", false, "Force PDF to be extracted using lattice-mode extraction (if there are ruling lines separating each cell, as in a PDF of an Excel spreadsheet)");
+        o.addOption("j", "ntp", false, "Force PDF to be extracted using ntp-mode extraction");
         o.addOption("t", "stream", false, "Force PDF to be extracted using stream-mode extraction (if there are no ruling lines separating each cell)");
         o.addOption("i", "silent", false, "Suppress all stderr output.");
         o.addOption("u", "use-line-returns", false, "Use embedded line returns in cells. (Only in spreadsheet mode.)");
@@ -356,6 +363,7 @@ public class CommandLineApp {
         private boolean useLineReturns = false;
         private BasicExtractionAlgorithm basicExtractor = new BasicExtractionAlgorithm();
         private SpreadsheetExtractionAlgorithm spreadsheetExtractor = new SpreadsheetExtractionAlgorithm();
+        private NtpExtractionAlgorithm ntpExtractor = new NtpExtractionAlgorithm(); 
         private List<Float> verticalRulingPositions = null;
         private ExtractionMethod method = ExtractionMethod.BASIC;
 
@@ -390,6 +398,8 @@ public class CommandLineApp {
                     return extractTablesBasic(page);
                 case SPREADSHEET:
                     return extractTablesSpreadsheet(page);
+                case NTP:
+                    return extractTablesNTP(page);
                 default:
                     return new ArrayList<>();
             }
@@ -419,6 +429,10 @@ public class CommandLineApp {
         public List<Table> extractTablesSpreadsheet(Page page) {
             // TODO add useLineReturns
             return spreadsheetExtractor.extract(page);
+        }
+
+        public List<Table> extractTablesNTP(Page page) {
+            return ntpExtractor.extract(page);
         }
     }
 
@@ -472,6 +486,7 @@ public class CommandLineApp {
     private enum ExtractionMethod {
         BASIC,
         SPREADSHEET,
+        NTP,
         DECIDE
     }
 
