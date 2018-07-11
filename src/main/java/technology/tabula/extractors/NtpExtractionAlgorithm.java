@@ -18,11 +18,16 @@ public class NtpExtractionAlgorithm implements ExtractionAlgorithm{
 		return exampleTables();
 	}
 
+	//Used for debugging
 	public List<Table> exampleTables(){
+		return exampleTables(3);
+	}
+
+	//Used for debugging
+	public List<Table> exampleTables(int size){
 		Table table = Table.empty();
 		String letters = "abcdefgh";
 		String nums = "12345689";
-		int size=3;
 		for (int i = 0; i<size; i++){
 			for (int p = 0; p<size; p++){
 				char[] a = {letters.charAt(i),nums.charAt(p)};
