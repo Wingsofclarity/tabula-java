@@ -252,15 +252,16 @@ public class CommandLineApp {
             return ExtractionMethod.SPREADSHEET;
         }
 
+        if (line.hasOption('j')) {
+            return ExtractionMethod.NTP;
+        }
+
         // -n/--no-spreadsheet [deprecated; use -t] or  -c/--columns or -g/--guess or -t/--stream
         if (line.hasOption('n') || line.hasOption('c') || line.hasOption('g') || line.hasOption('t')) {
             return ExtractionMethod.BASIC;
         }
 
 
-        if (line.hasOption('j')) {
-            return ExtractionMethod.NTP;
-        }
         return ExtractionMethod.DECIDE;
     }
 
