@@ -7,6 +7,7 @@ import technology.tabula.TextChunk;
 import technology.tabula.Cell;
 import java.util.Arrays;
 import technology.tabula.TextElement;
+import technology.tabula.extractors.BasicExtractionAlgorithm;
 
 
 public class NtpExtractionAlgorithm implements ExtractionAlgorithm{
@@ -15,7 +16,7 @@ public class NtpExtractionAlgorithm implements ExtractionAlgorithm{
 	}
 
 	public List<Table> extract(Page page) {
-		return exampleTables();
+		return ;
 	}
 
 	//Used for debugging
