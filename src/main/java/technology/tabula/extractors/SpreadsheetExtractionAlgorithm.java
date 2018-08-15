@@ -157,7 +157,8 @@ public class SpreadsheetExtractionAlgorithm implements ExtractionAlgorithm {
         Table table = tables.get(0);
         int rowsDefinedByLines = table.getRowCount();
         int colsDefinedByLines = table.getColCount();
-        
+
+		System.out.println("BasicExtractionAlgorithm was used in SpreadsheetExtractionAlgorithm"); 
         tables = new BasicExtractionAlgorithm().extract(minimalRegion);
         if (tables.size() == 0) {
             // TODO WHAT DO WE DO HERE?
